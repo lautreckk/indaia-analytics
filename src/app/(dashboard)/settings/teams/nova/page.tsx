@@ -148,12 +148,12 @@ export default function NewTeamPage() {
       if (membersError) throw membersError;
 
       // Verificar se o trigger adicionou o coordenador automaticamente
-      const { data: members } = await supabase
+      const { data: teamMembers } = await supabase
         .from('ai_team_members')
         .select('*, agent:ai_agents(is_coordinator)')
         .eq('team_id', team.id);
       
-      const hasCoordinator = members?.some(m => m.is_coordinator || (m.agent as any)?.is_coordinator);
+      const hasCoordinator = teamMembers?.some(m => m.is_coordinator || (m.agent as any)?.is_coordinator);
       
       if (!hasCoordinator) {
         console.warn('⚠️ Coordenador não foi adicionado automaticamente, adicionando manualmente...');
